@@ -56,7 +56,7 @@ public class PieceArrangement {
     public void placePiece(Piece piece) {
         for(int i = 0;i < 4;i++) {
             int column = piece.getX(i)/UNIT_SIZE ,row = piece.getY(i)/UNIT_SIZE;
-                coveredTiles[row][column] = piece.getColor();
+            coveredTiles[row][column] = piece.getColor();
         }
         deleteLines();
     }
@@ -82,8 +82,7 @@ public class PieceArrangement {
             int row = checkLines();
 
             for (int j = row; j > 0; j--) {
-                for (int k = 0; k < nbColumns; k++)
-                    coveredTiles[j][k] = coveredTiles[j - 1][k];
+                if (nbColumns >= 0) System.arraycopy(coveredTiles[j - 1], 0, coveredTiles[j], 0, nbColumns);
             }
             clearedLines++;
         }

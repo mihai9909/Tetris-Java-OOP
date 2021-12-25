@@ -3,6 +3,7 @@ package tetris.pieces;
 import tetris.GamePanel;
 
 public class Line extends Piece {
+
     public Line(int UNIT_SIZE, int WINDOW_HEIGHT, int WINDOW_WIDTH, int leftOffset, int topOffset, GamePanel panel) {
         setRunning(true);
         this.WINDOW_HEIGHT = WINDOW_HEIGHT;

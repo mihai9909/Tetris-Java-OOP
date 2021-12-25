@@ -73,9 +73,13 @@ public class GamePanel extends JPanel implements ActionListener {
             case 6 -> piece = new Square(UNIT_SIZE, WINDOW_HEIGHT, BOARD_WIDTH, 3, 2, this);
         }
         if(!piece.checkCollisions('D')){
-            piece.setRunning(false);
-            scoreBoard.setVisibleGameOver(true);
+            gameOver();
         }
+    }
+
+    public void gameOver(){
+        piece.setRunning(false);
+        scoreBoard.setVisibleGameOver(true);
     }
 
     public class MyKeyAdapter extends KeyAdapter {

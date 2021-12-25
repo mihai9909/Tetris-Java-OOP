@@ -1,5 +1,4 @@
 package tetris.pieces;
-
 import tetris.GamePanel;
 
 import java.awt.*;
@@ -20,7 +19,6 @@ abstract public class Piece {
     public int getY(int i){
         return y[i];
     }
-
     public int getColor(){
         return color;
     }
@@ -54,12 +52,12 @@ abstract public class Piece {
 
     public void moveDown(){
         for (int i = 0; i < 4; i++) {
-            this.y[i] += UNIT_SIZE;
+            y[i] += UNIT_SIZE;
         }
 
         if(!checkCollisions('D')) {
             for(int j = 0; j < 4;j++)   //object collides so we have to move it 1 tile up
-                this.y[j] -= UNIT_SIZE;
+                y[j] -= UNIT_SIZE;
             panel.pieceArrangement.placePiece(this);
             this.running = false;
             panel.newPiece();
@@ -69,10 +67,10 @@ abstract public class Piece {
     public void placePiece(){
         while(checkCollisions('D'))
             for (int i = 0; i < 4; i++)
-                this.y[i] += UNIT_SIZE;
+                y[i] += UNIT_SIZE;
 
         for(int j = 0; j < 4;j++)   //object collides so we have to move it 1 tile up
-            this.y[j] -= UNIT_SIZE;
+            y[j] -= UNIT_SIZE;
 
         panel.pieceArrangement.placePiece(this);
         this.running = false;
@@ -85,12 +83,12 @@ abstract public class Piece {
                 case 'L':
                     if(checkCollisions(dir))
                         for (int i = 0; i < 4; i++)
-                            this.x[i] -= UNIT_SIZE;
+                            x[i] -= UNIT_SIZE;
                     break;
                 case 'R':
                     if(checkCollisions(dir))
                         for (int i = 0; i < 4; i++)
-                            this.x[i] += UNIT_SIZE;
+                            x[i] += UNIT_SIZE;
                     break;
             }
         }
@@ -101,8 +99,8 @@ abstract public class Piece {
         if(dir == 'L')
         {
             for(int i = 0;i<4;i++) {
-                int yPos = this.y[i]/UNIT_SIZE;
-                int xPos = this.x[i]/UNIT_SIZE;
+                int yPos = y[i]/UNIT_SIZE;
+                int xPos = x[i]/UNIT_SIZE;
 
                 if(xPos <= 0 || panel.getCoveredTiles(yPos,xPos-1) != 0) {
                     return false;
@@ -111,8 +109,8 @@ abstract public class Piece {
         }
         else if(dir == 'D'){
             for (int i = 0; i < 4; i++) {
-                int yPos = this.y[i] / UNIT_SIZE;
-                int xPos = this.x[i] / UNIT_SIZE;
+                int yPos = y[i] / UNIT_SIZE;
+                int xPos = x[i] / UNIT_SIZE;
 
                 if (yPos >= panel.pieceArrangement.getNbRows() || panel.getCoveredTiles(yPos,xPos) != 0) {
                     return false;
@@ -121,8 +119,8 @@ abstract public class Piece {
         }
         else if(dir == 'R') {
             for (int i = 0; i < 4; i++) {
-                int yPos = this.y[i] / UNIT_SIZE;
-                int xPos = this.x[i] / UNIT_SIZE;
+                int yPos = y[i] / UNIT_SIZE;
+                int xPos = x[i] / UNIT_SIZE;
                 if ((xPos > panel.pieceArrangement.getNbColumns()-2 || panel.getCoveredTiles(yPos,xPos+1) != 0)) {
                     return false;
                 }
@@ -133,22 +131,27 @@ abstract public class Piece {
 
     public void handleRotationCol(){
         for(int i = 0;i < 4;i++){
-            int xPos = this.x[i]/UNIT_SIZE;
-            int yPos = this.y[i]/UNIT_SIZE;
+            int xPos = x[i]/UNIT_SIZE;
+            int yPos = y[i]/UNIT_SIZE;
 
             while(xPos >= panel.pieceArrangement.getNbColumns()){
                 for(int j = 0;j < 4;j++)
-                    this.x[j] -= UNIT_SIZE;
+                    x[j] -= UNIT_SIZE;
                 xPos--;
             }
             while(xPos < 0) {
                 for (int j = 0; j < 4; j++)
-                    this.x[j] += UNIT_SIZE;
+                    x[j] += UNIT_SIZE;
                 xPos++;
             }
             while(panel.getCoveredTiles(yPos,xPos) != 0){
-                for(int j = 0;j < 4;j++)
-                    this.y[j] -= UNIT_SIZE;
+                for(int j = 0;j < 4;j++) {
+                    y[j] -= UNIT_SIZE;
+                    if(y[j] < 0){   //fixes a bug where you rotate out of the upper bound of the coveredTiles matrix
+                        panel.gameOver();
+                        return;
+                    }
+                }
                 yPos--;
             }
         }
@@ -161,9 +164,9 @@ abstract public class Piece {
 
         for(int i = 0;i<4;i++) {
             g.setColor(new Color(red,green,blue));
-            g.fillRect(this.x[i],this.y[i],UNIT_SIZE,UNIT_SIZE);
+            g.fillRect(x[i],y[i],UNIT_SIZE,UNIT_SIZE);
             g.setColor(Color.black);
-            g.drawRect(this.x[i],this.y[i],UNIT_SIZE,UNIT_SIZE);    //outline of the piece
+            g.drawRect(x[i],y[i],UNIT_SIZE,UNIT_SIZE);    //outline of the piece
         }
     }
 }
