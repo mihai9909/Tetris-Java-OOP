@@ -9,9 +9,9 @@ import java.util.Random;
 
 public class GamePanel extends JPanel implements ActionListener {
 
-    private final int BOARD_WIDTH = 200;
+    private final int BOARD_WIDTH = 250;
     private final int UI_WIDTH = 150;
-    private final int WINDOW_HEIGHT = 500;
+    private final int WINDOW_HEIGHT = 700;
     private final int UNIT_SIZE = 25;
     private int DELAY = 800;
 
