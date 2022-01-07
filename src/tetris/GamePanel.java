@@ -11,7 +11,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
     private final int BOARD_WIDTH = 250;
     private final int UI_WIDTH = 150;
-    private final int WINDOW_HEIGHT = 700;
+    private final int WINDOW_HEIGHT = 500;
     private final int UNIT_SIZE = 25;
     private int DELAY = 800;
 
@@ -60,7 +60,7 @@ public class GamePanel extends JPanel implements ActionListener {
         }
     }   //optional
 
-    public void newPiece(){        //TODO: build queue for pieces and make a random piece
+    public void newPiece(){
         int randPiece = random.nextInt(7);
 
         switch (randPiece) {
@@ -108,10 +108,6 @@ public class GamePanel extends JPanel implements ActionListener {
                 case KeyEvent.VK_Z:
                     piece.rotatePiece();
                     piece.handleRotationCol();
-                    repaint();
-                    break;
-                case KeyEvent.VK_P:
-                    piece.setRunning(!piece.getRunning());
                     repaint();
                     break;
             }

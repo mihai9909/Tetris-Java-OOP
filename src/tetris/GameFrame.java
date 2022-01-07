@@ -3,7 +3,7 @@ package tetris;
 import javax.swing.*;
 
 public class GameFrame extends JFrame {
-    GameFrame() {
+    public GameFrame() {
         this.add(new GamePanel());
         this.setTitle("Tetros");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
