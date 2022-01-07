@@ -108,7 +108,8 @@ public class MainMenu extends JFrame implements ActionListener {
     private class  scoreboardButtonListener implements ActionListener{
         @Override
         public  void actionPerformed(ActionEvent e){
-
+            setVisible(false);
+            Top.getInstance();
         }
     }
 
