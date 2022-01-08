@@ -1,5 +1,6 @@
 package tetris.view;
 
+import tetris.Login;
 import tetris.model.Model;
 
 import javax.swing.*;
@@ -9,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.security.PublicKey;
 import java.util.EventListener;
 
-public class RegisterM {
+public class RegisterM extends JFrame{
     private JTextField userTxt;
     private JPanel panel1;
     private JPasswordField passwordField;
@@ -20,7 +21,9 @@ public class RegisterM {
     private JFrame frame;
     private Model model;
 
-    public RegisterM(){
+    private static RegisterM registerM;
+
+    private RegisterM(){
         frame = new JFrame("Register");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setPreferredSize(new Dimension(450, 400));
@@ -37,6 +40,12 @@ public class RegisterM {
         model = Model.getInstance();
     }
 
+    public static RegisterM getInstance(){
+        if(registerM == null)
+            registerM = new RegisterM();
+        return registerM;
+    }
+
     private class RegisterButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -45,7 +54,12 @@ public class RegisterM {
 
             if(!model.nicknameExists(nicknameField.getText()) && !model.credentialsExist(userTxt.getText(),passwordField.getText())) {
                 model.registerUserIntoDB(userTxt.getText(), passwordField.getText(), nicknameField.getText());
+                frame.setVisible(false);
+                Login.getInstance().setVisible(true);
             }
         }
+    }
+    public void setVisible(boolean visible){
+        frame.setVisible(visible);
     }
 }
