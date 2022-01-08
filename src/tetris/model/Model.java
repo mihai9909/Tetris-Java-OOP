@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
+import java.time.LocalDateTime;
 
 public class Model {
     private static Model model;
@@ -128,5 +129,8 @@ public class Model {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public void insertNewGameIntoDB(int score,int lines, String name){
     }
 }

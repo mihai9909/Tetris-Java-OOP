@@ -16,6 +16,7 @@ public class Login{
     private JPasswordField password;
     private JButton logInButton;
     private JButton registerButton;
+    private JLabel checkCredentialsText;
     private JFrame frame;
     private Model model;
 
@@ -48,9 +49,12 @@ public class Login{
     private class LoginButtonListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
+            checkCredentialsText.setVisible(false);
             if(model.credentialsExist(UserTxt.getText(),password.getText())){
                 frame.dispose();
                 MainMenu.getInstance().setVisible(true);
+            }else{
+                checkCredentialsText.setVisible(true);
             }
         }
     }
@@ -62,6 +66,7 @@ public class Login{
             RegisterM.getInstance().setVisible(true);
         }
     }
+
     public void setVisible(boolean visible){
         frame.setVisible(visible);
     }

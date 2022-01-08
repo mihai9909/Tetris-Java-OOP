@@ -31,6 +31,16 @@ public class ScoreBoard {
 
     private GamePanel panel;
 
+    public ScoreBoard(int BOARD_WIDTH,int WINDOW_HEIGHT,int SCORE_BOARD_WIDTH, GamePanel panel) {
+        this.panel = panel;
+        SCORE = 0;
+        LINES = 0;
+        Level = 0;
+        this.BOARD_WIDTH = BOARD_WIDTH;
+        this.SCORE_BOARD_WIDTH = SCORE_BOARD_WIDTH;
+        this.WINDOW_HEIGHT = WINDOW_HEIGHT;
+    }
+
     public JLabel getScoreText() {
         return scoreText;
     }
@@ -53,16 +63,6 @@ public class ScoreBoard {
 
     public void setVisibleGameOver(boolean visibleGameOver) {
         this.visibleGameOver = visibleGameOver;
-    }
-
-    public ScoreBoard(int BOARD_WIDTH,int WINDOW_HEIGHT,int SCORE_BOARD_WIDTH, GamePanel panel) {
-        this.panel = panel;
-        SCORE = 0;
-        LINES = 0;
-        Level = 0;
-        this.BOARD_WIDTH = BOARD_WIDTH;
-        this.SCORE_BOARD_WIDTH = SCORE_BOARD_WIDTH;
-        this.WINDOW_HEIGHT = WINDOW_HEIGHT;
     }
 
     public void setGameOverText(boolean visible){

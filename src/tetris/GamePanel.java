@@ -1,6 +1,7 @@
 package tetris;
 
 import tetris.pieces.*;
+import tetris.view.MainMenu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +23,11 @@ public class GamePanel extends JPanel implements ActionListener {
     Timer timer;
     Random random;
 
-    public GamePanel(){
+    GameFrame gameFrame;
+
+    public GamePanel(GameFrame gameFrame){
+        this.gameFrame = gameFrame;
+
         random = new Random();
 
         scoreBoard = new ScoreBoard(BOARD_WIDTH,WINDOW_HEIGHT,UI_WIDTH,this);
@@ -85,8 +90,13 @@ public class GamePanel extends JPanel implements ActionListener {
     public class MyKeyAdapter extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent key){
-            if(!piece.getRunning())
+            if(!piece.getRunning()) {
+                if(key.getKeyCode() == KeyEvent.VK_ENTER) {
+                    MainMenu.getInstance().setVisible(true); //TODO: save game info into database
+                    gameFrame.dispose();
+                }
                 return;
+            }
 
             switch (key.getKeyCode()){
                 case KeyEvent.VK_LEFT:

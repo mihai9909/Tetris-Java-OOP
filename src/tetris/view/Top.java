@@ -68,7 +68,7 @@ public class Top extends JFrame {
         scrollPane = new JScrollPane(table);
         scrollPane.setBounds(40,50,200,400);
         add(scrollPane);
-    }
+    }  
 
     private void addBackButton(){
         back.setBounds(5,5,30,30);
