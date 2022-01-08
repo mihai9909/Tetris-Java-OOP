@@ -4,6 +4,8 @@ import tetris.model.Model;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicArrowButton;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.lang.annotation.Target;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -12,11 +14,11 @@ import java.sql.*;
 
 public class Top extends JFrame {
 
-    private JButton back;
+    private JButton back = new JButton("<-");
     private JTable table;
     JScrollPane scrollPane;
 
-    private Model model;
+    private final Model model;
 
     private static Top top;
 
@@ -44,10 +46,10 @@ public class Top extends JFrame {
 
     private void addComponents(){
         addTable();
+        addBackButton();
     }
 
     private void addTable(){
-
         try {
             String[] columns = {"ID","NAME","SCORE"};
             ResultSet resultSet = model.getTopPlayers();
@@ -68,18 +70,17 @@ public class Top extends JFrame {
         add(scrollPane);
     }
 
-    public static String sha256(final String data) {
-        try {
-            final byte[] hash = MessageDigest.getInstance("SHA-256").digest(data.getBytes(StandardCharsets.UTF_8));
-            final StringBuilder hashStr = new StringBuilder(hash.length);
+    private void addBackButton(){
+        back.setBounds(5,5,30,30);
+        back.addActionListener(new BackButtonActionListener());
+        add(back);
+    }
 
-            for (byte hashByte : hash)
-                hashStr.append(Integer.toHexString(255 & hashByte));
-
-            return hashStr.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            return null;
+    private class BackButtonActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e){
+            dispose();
+            MainMenu.getInstance().setVisible(true);
         }
     }
 }
