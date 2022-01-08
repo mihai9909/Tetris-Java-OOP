@@ -3,13 +3,10 @@ package tetris.view;
 import tetris.model.Model;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicArrowButton;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.annotation.Target;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+
 import java.sql.*;
 
 public class Top extends JFrame {
@@ -53,7 +50,7 @@ public class Top extends JFrame {
         try {
             String[] columns = {"ID","NAME","SCORE"};
             ResultSet resultSet = model.getTopPlayers();
-            String[][] data = {
+            String[][] data = {         //this should be done in the presenter
                     {"1",resultSet.getString("name").trim(),resultSet.getString("score").trim()},
                     {"2","fsd","100"}
             };
@@ -68,7 +65,7 @@ public class Top extends JFrame {
         scrollPane = new JScrollPane(table);
         scrollPane.setBounds(40,50,200,400);
         add(scrollPane);
-    }  
+    }
 
     private void addBackButton(){
         back.setBounds(5,5,30,30);

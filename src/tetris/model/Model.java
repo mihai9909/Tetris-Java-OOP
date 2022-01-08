@@ -8,11 +8,13 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.Calendar;
 
 public class Model {
     private static Model model;
@@ -131,6 +133,55 @@ public class Model {
         return false;
     }
 
+    public String  getNickname(String username, String pass){
+        try {
+            PreparedStatement sqlQuery = databaseConnection.prepareStatement("select name from players where hashed_user = ? and hashed_pass = ?;",ResultSet.TYPE_SCROLL_SENSITIVE,  ResultSet.CONCUR_UPDATABLE);
+
+            String hashed_user = sha256(username);
+            String hashed_password = sha256(pass);
+
+            sqlQuery.setString(1, hashed_user);
+            sqlQuery.setString(2, hashed_password);
+
+            ResultSet result = sqlQuery.executeQuery();
+            result.next();
+            return result.getString(1);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     public void insertNewGameIntoDB(int score,int lines, String name){
+        try {
+            PreparedStatement sqlQuery = databaseConnection.prepareStatement("select count(game_id) from games");
+            ResultSet resultSet = sqlQuery.executeQuery();
+            resultSet.next();
+            int games = resultSet.getInt(1) + 1;
+
+            java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+
+            int category_id = 1;
+
+            sqlQuery = databaseConnection.prepareStatement("select id from players where name = ?;");
+            sqlQuery.setString(1,name);
+            resultSet = sqlQuery.executeQuery();
+            resultSet.next();
+            int player_id = resultSet.getInt(1);
+
+
+            sqlQuery = databaseConnection.prepareStatement("insert into games (game_id, score, line, date, category_id, player_id) VALUES (?,?,?,?,?,?);");
+            sqlQuery.setInt(1,games);
+            sqlQuery.setInt(2,score);
+            sqlQuery.setInt(3,lines);
+            sqlQuery.setDate(4,date);
+            sqlQuery.setInt(5,category_id);
+            sqlQuery.setInt(6,player_id);
+
+            sqlQuery.execute();
+
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

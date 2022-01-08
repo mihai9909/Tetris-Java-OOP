@@ -2,6 +2,7 @@ package tetris;
 
 import com.sun.tools.javac.Main;
 import tetris.model.Model;
+import tetris.presenter.Presenter;
 import tetris.view.MainMenu;
 import tetris.view.RegisterM;
 
@@ -50,7 +51,11 @@ public class Login{
         @Override
         public void actionPerformed(ActionEvent e) {
             checkCredentialsText.setVisible(false);
-            if(model.credentialsExist(UserTxt.getText(),password.getText())){
+            String userText = UserTxt.getText();
+            String passwordText = password.getText();
+
+            if(model.credentialsExist(userText,passwordText)){
+                Presenter.getInstance().setNickname(Model.getInstance().getNickname(userText,passwordText));
                 frame.dispose();
                 MainMenu.getInstance().setVisible(true);
             }else{

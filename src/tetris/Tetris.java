@@ -1,5 +1,6 @@
 package tetris;
 
+import tetris.model.Model;
 import tetris.view.RegisterM;
 
 import java.time.LocalDateTime;

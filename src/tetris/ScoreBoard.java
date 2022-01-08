@@ -13,7 +13,6 @@ import java.awt.*;
 import java.util.List;
 
 public class ScoreBoard {
-
     private int SCORE;
     private int Level;
     private int LINES;
@@ -60,6 +59,15 @@ public class ScoreBoard {
     public JLabel getLinesText(){
         return linesText;
     }
+
+    public int getSCORE() {
+        return SCORE;
+    }
+
+    public int getLINES() {
+        return LINES;
+    }
+
 
     public void setVisibleGameOver(boolean visibleGameOver) {
         this.visibleGameOver = visibleGameOver;

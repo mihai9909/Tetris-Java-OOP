@@ -1,6 +1,8 @@
 package tetris;
 
+import tetris.model.Model;
 import tetris.pieces.*;
+import tetris.presenter.Presenter;
 import tetris.view.MainMenu;
 
 import javax.swing.*;
@@ -85,6 +87,7 @@ public class GamePanel extends JPanel implements ActionListener {
     public void gameOver(){
         piece.setRunning(false);
         scoreBoard.setVisibleGameOver(true);
+        Model.getInstance().insertNewGameIntoDB(scoreBoard.getSCORE(),scoreBoard.getLINES(), Presenter.getInstance().getNickname());
     }
 
     public class MyKeyAdapter extends KeyAdapter {
