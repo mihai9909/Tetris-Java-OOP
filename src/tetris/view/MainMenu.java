@@ -1,6 +1,7 @@
 package tetris.view;
 
 import tetris.GameFrame;
+import tetris.model.Model;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.*;
 
 public class MainMenu extends JFrame implements ActionListener {
 
@@ -31,9 +31,10 @@ public class MainMenu extends JFrame implements ActionListener {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
-        setVisible(true);
         addKeyListener(new PressAnyBtnAdapter());
         addComponents();
+
+        setVisible(true);
     }
     public static MainMenu getInstance(){
         if(obj == null) {
@@ -49,21 +50,12 @@ public class MainMenu extends JFrame implements ActionListener {
         addQuitButton();
         addText();
     }
-
     public void addTetrisLabel(){
-        try {
-            InputStream myStream = new BufferedInputStream(new FileInputStream("dependencies/futurao.ttf"));
-            Font font = Font.createFont(Font.TRUETYPE_FONT, myStream);
 
-
-            font = font.deriveFont(45f);
-            tetris.setFont(font);
-        } catch (IOException|FontFormatException e) {
-            e.printStackTrace();
-        }
         tetris.setBounds(35,0,500,150);
-        tetris.setVisible(true);
+        tetris.setFont(Model.getTetrisFont());
         add(tetris);
+        tetris.setVisible(true);
     }
 
     public void addText(){
@@ -125,6 +117,7 @@ public class MainMenu extends JFrame implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e){
             dispose();
+            System.exit(0);
         }
     }
 

@@ -1,6 +1,10 @@
 package tetris.view;
 
+import tetris.model.Model;
+
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicArrowButton;
+import java.lang.annotation.Target;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -8,9 +12,11 @@ import java.sql.*;
 
 public class Top extends JFrame {
 
-    private ResultSet resultSet = null;
+    private JButton back;
+    private JTable table;
+    JScrollPane scrollPane;
 
-    private JLabel nb1 = new JLabel("");
+    private Model model;
 
     private static Top top;
 
@@ -18,45 +24,16 @@ public class Top extends JFrame {
 
         setSize(300, 500);
         setLayout(null);
-        setTitle("Main Menu");
+        setTitle("Scoreboard");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
-        setVisible(true);
 
-
-        String jdbcURL = "jdbc:postgresql://localhost:5432/tetris";
-        String user = "postgres";
-        String password = "admin";
-        Connection databaseConnection;
-        try {
-            databaseConnection = DriverManager.getConnection(jdbcURL, user, password);
-            Statement statement = databaseConnection.createStatement();
-            resultSet = statement.executeQuery("select name,score from players join games g on players.id = g.player_id order by score;");
-
-/*            String username = "mihai";
-            String pass = "postgres";
-            String nickname = "mihai9909";
-
-            PreparedStatement sqlQuery = databaseConnection.prepareStatement("insert into players (id,hashed_user,hashed_pass,name) values (1,?,?,)");
-
-            String hashed_user = sha256(username);
-            String hashed_password = sha256(pass);
-
-            sqlQuery.setString(1,hashed_user);
-            sqlQuery.setString(2,hashed_password);
-            sqlQuery.setString(3,nickname);
-
-            sqlQuery.execute();
-            */
-
-        } catch (SQLException e){
-            e.printStackTrace();
-            System.err.println(e.getClass().getName()+": "+e.getMessage());
-            System.err.println("Database connection error");
-        }
+        model = Model.getInstance();
 
         addComponents();
+
+        setVisible(true);
     }
 
     public static Top getInstance(){
@@ -66,25 +43,29 @@ public class Top extends JFrame {
     }
 
     private void addComponents(){
-        addNb1();
+        addTable();
     }
 
-    private void addNb1(){
-
-        nb1.setBounds(50,0,400,70);
+    private void addTable(){
 
         try {
-            resultSet.next();
-            String nickname = resultSet.getString("name").trim();
-            String score = resultSet.getString("score").trim();
-            System.out.println(score);
-            String text = "1." + nickname + " : " + score;
-            System.out.println(text);
-            nb1.setText(text);
+            String[] columns = {"ID","NAME","SCORE"};
+            ResultSet resultSet = model.getTopPlayers();
+            String[][] data = {
+                    {"1",resultSet.getString("name").trim(),resultSet.getString("score").trim()},
+                    {"2","fsd","100"}
+            };
+            table = new JTable(data,columns);
         }catch (SQLException e){
             e.printStackTrace();
         }
-        add(nb1);
+
+        table.setCellSelectionEnabled(true);
+        table.setBounds(40,50,200,400);
+        table.setDefaultEditor(Object.class,null);
+        scrollPane = new JScrollPane(table);
+        scrollPane.setBounds(40,50,200,400);
+        add(scrollPane);
     }
 
     public static String sha256(final String data) {
