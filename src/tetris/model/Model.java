@@ -43,9 +43,18 @@ public class Model {
     public ResultSet getTopPlayers() throws SQLException {
         ResultSet resultSet = null;
         Statement statement = databaseConnection.createStatement();
-        resultSet = statement.executeQuery("select name,score from players join games g on players.id = g.player_id order by score;");
+        resultSet = statement.executeQuery("select name,score from players join games g on players.id = g.player_id order by score desc;");
         resultSet.next();
         return resultSet;
+    }
+
+    public int getNbGames() throws SQLException {
+        ResultSet resultSet = null;
+        Statement statement = databaseConnection.createStatement();
+        resultSet = statement.executeQuery("select count(game_id) from games");
+        resultSet.next();
+        int nbGames = resultSet.getInt(1);
+        return nbGames;
     }
 
     public Font getTetrisFont(){

@@ -100,7 +100,7 @@ public class MainMenu extends JFrame implements ActionListener {
         @Override
         public  void actionPerformed(ActionEvent e){
             setVisible(false);
-            Top.getInstance().setVisible(true);
+            Top.getInstance();
         }
     }
 

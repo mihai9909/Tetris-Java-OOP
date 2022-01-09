@@ -49,11 +49,18 @@ public class Top extends JFrame {
     private void addTable(){
         try {
             String[] columns = {"ID","NAME","SCORE"};
+
+            int nbGames = Model.getInstance().getNbGames();
+
             ResultSet resultSet = model.getTopPlayers();
-            String[][] data = {         //this should be done in the presenter
-                    {"1",resultSet.getString("name").trim(),resultSet.getString("score").trim()},
-                    {"2","fsd","100"}
-            };
+            String[][] data = new String[nbGames][3];
+            for(int i = 0; i < nbGames; i++){
+                data[i][0] = i + 1 + "";
+                data[i][1] = resultSet.getString("name").trim();
+                data[i][2] = resultSet.getString("score").trim();
+                resultSet.next();
+            }
+
             table = new JTable(data,columns);
         }catch (SQLException e){
             e.printStackTrace();
@@ -77,6 +84,7 @@ public class Top extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e){
             dispose();
+            top = null;
             MainMenu.getInstance().setVisible(true);
         }
     }
