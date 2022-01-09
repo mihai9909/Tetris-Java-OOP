@@ -95,7 +95,7 @@ public class GamePanel extends JPanel implements ActionListener {
         public void keyPressed(KeyEvent key){
             if(!piece.getRunning()) {
                 if(key.getKeyCode() == KeyEvent.VK_ENTER) {
-                    MainMenu.getInstance().setVisible(true); //TODO: save game info into database
+                    MainMenu.getInstance().setVisible(true);
                     gameFrame.dispose();
                 }
                 return;

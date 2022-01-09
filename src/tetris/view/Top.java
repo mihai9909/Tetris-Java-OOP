@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.stream.IntStream;
 
 public class Top extends JFrame {
 
@@ -48,7 +50,13 @@ public class Top extends JFrame {
 
     private void addTable(){
         try {
-            String[] columns = {"ID","NAME","SCORE"};
+            String[] columns = new String[3];
+            ArrayList<String> col = new ArrayList<>();
+            col.add("ID");
+            col.add("NAME");
+            col.add("SCORE");
+            int len = col.size();
+            IntStream.range(0,len).forEach((index)-> columns[index] = col.get(index));   // used arrayList and lambda expression
 
             int nbGames = Model.getInstance().getNbGames();
 
